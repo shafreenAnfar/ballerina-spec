@@ -5,23 +5,42 @@ on:
     tags:    
       - '*'
 jobs:
-  build:
+  build_draft_spec:
     runs-on: ubuntu-latest
-    # env:
-    #   GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
 
     steps:
       - name: Echo
         run: echo $GITHUB_REF
         
-      # - name: Checkout ballerina-spec
-      #   uses: actions/checkout@v2
+      - name: Checkout ballerina-spec
+        uses: actions/checkout@v2
 
-      # - name: Clone ballerina-dev-website
-      #   run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
+      - name: Clone ballerina-dev-website
+        run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/shafreenAnfar/ballerina-dev-website.git
 
-      # - name: Make
-      #   run: |
-      #     sudo apt-get install -y xsltproc
-      #     cd lang
-      #     make all
+      - name: Make the new folder location
+        run: |
+          cd ballerina-dev-website/spec/draft
+          array=($(echo refs/tags/v2020-06-10 | tr "/" "\n"))
+          len=${#array[@]}
+          echo "${array[len-1]}"
+          mkdir "${array[len-1]}"
+          echo "::set-env name=NEW_FOLDER::${array[len-1]}"
+
+      - name: Make
+        run: |
+          sudo apt-get install -y xsltproc
+          cd lang
+          make all
+          cp -r lib/ ../../ballerina-dev-website/spec/draft/${{ NEW_FOLDER }}
+
+      - name: Create pull request for prod-sync
+        shell: bash
+        run: |
+          cd ballerina-platform.github.io
+          curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
+          bin/hub pull-request -m '[Automated] Sync tag ${{ NEW_FOLDER }} with dev ballerina.io'
+        env:
+          GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
