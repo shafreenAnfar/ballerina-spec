@@ -1,0 +1,27 @@
+name: Daft Build
+
+on:
+  push:
+    tags:    
+      - `*`  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
+
+    steps:
+      - name: Echo
+        run: echo $GITHUB_REF
+        
+      # - name: Checkout ballerina-spec
+      #   uses: actions/checkout@v2
+
+      # - name: Clone ballerina-dev-website
+      #   run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
+
+      # - name: Make
+      #   run: |
+      #     sudo apt-get install -y xsltproc
+      #     cd lang
+      #     make all
