@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Clone ballerina-dev-website
-        run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/shafreenAnfar/ballerina-dev-website.git
+        run: git clone https://shafreenAnfar:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
 
       - name: Make a new folder location
         run: |
@@ -26,6 +26,11 @@ jobs:
           mkdir "${array[len-1]}"
           pwd
           echo "::set-env name=NEW_FOLDER::${array[len-1]}"
+
+      - name: Update the latest to new url
+        run: |
+          cd ballerina-dev-website/spec/draft/latest
+          echo -e "---\nredirect_to: /spec/draft/$NEW_FOLDER/\n---" > index.md
 
       - name: Make
         run: |
