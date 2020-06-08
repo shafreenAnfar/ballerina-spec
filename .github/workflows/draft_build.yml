@@ -42,7 +42,7 @@ jobs:
           cp -r build/style/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
           cp -r build/spec.html ../ballerina-dev-website/spec/draft/$NEW_FOLDER/index.html
 
-      - name: Sync ballerina-spec with dev ballerina site
+      - name: Sync ballerina-spec with ballerina dev site
         run: |
           cd ballerina-dev-website
           git checkout automate-spec-sync-$GITHUB_SHA 2>/dev/null || git checkout -b automate-spec-sync-$GITHUB_SHA
@@ -62,6 +62,7 @@ jobs:
         run: |
           cd ballerina-dev-website
           curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
-          bin/hub pull-request -m '[Automated] Sync tag $NEW_FOLDER with dev ballerina site'
+          message=$(echo "[Automated] Sync tag $NEW_FOLDER with ballerina dev site")
+          bin/hub pull-request -m $message
         env:
           GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
