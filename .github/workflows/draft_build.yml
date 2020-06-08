@@ -32,12 +32,14 @@ jobs:
           cd ballerina-dev-website/spec/draft/latest
           echo -e "---\nredirect_to: /spec/draft/$NEW_FOLDER/\n---" > index.md
 
+      - name: Install xsltproc
+        run: sudo apt-get install -y xsltproc
+
       - name: Make
         run: |
-          sudo apt-get install -y xsltproc
+          git checkout $$GITHUB_REF -b tmp
           cd lang
           make all
-          pwd
           cp -r build/lib/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
           cp -r build/style/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
           cp -r build/spec.html ../ballerina-dev-website/spec/draft/$NEW_FOLDER/index.html
