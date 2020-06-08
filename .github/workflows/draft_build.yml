@@ -1,26 +1,23 @@
-name: Daft Build
+name: Sync draft spec with ballerina.io
 
 on:
   push:
     tags:    
       - '*'
 jobs:
-  build_draft_spec:
+  sync_draft_spec:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
 
-    steps:
-      - name: Echo
-        run: echo $GITHUB_REF
-        
+    steps:       
       - name: Checkout ballerina-spec
         uses: actions/checkout@v2
 
       - name: Clone ballerina-dev-website
         run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/shafreenAnfar/ballerina-dev-website.git
 
-      - name: Make the new folder location
+      - name: Make a new folder location
         run: |
           cd ballerina-dev-website/spec/draft
           array=($(echo $GITHUB_REF | tr "/" "\n"))
@@ -40,7 +37,7 @@ jobs:
           cp -r build/style/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
           cp -r build/spec.html ../ballerina-dev-website/spec/draft/$NEW_FOLDER/index.html
 
-      - name: Sync ballerina-spec with dev ballerina.io
+      - name: Sync ballerina-spec with dev ballerina site
         run: |
           cd ballerina-dev-website
           git checkout automate-spec-sync-$GITHUB_SHA 2>/dev/null || git checkout -b automate-spec-sync-$GITHUB_SHA
@@ -60,7 +57,6 @@ jobs:
         run: |
           cd ballerina-dev-website
           curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
-          bin/hub pull-request -m '[Automated] Sync tag ${NEW_FOLDER} with dev ballerina.io'
+          bin/hub pull-request -m '[Automated] Sync tag $NEW_FOLDER with dev ballerina site'
         env:
           GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
-          NEW_FOLDER: ${{ env.NEW_FOLDER }}
