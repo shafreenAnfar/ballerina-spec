@@ -40,7 +40,22 @@ jobs:
           cp -r build/style/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
           cp -r build/spec.html ../ballerina-dev-website/spec/draft/$NEW_FOLDER/index.html
 
-      - name: Create pull request for prod-sync
+      - name: Sync ballerina-spec with dev ballerina.io
+        run: |
+          cd ballerina-dev-website
+          git checkout automate-spec-sync-$GITHUB_SHA 2>/dev/null || git checkout -b automate-spec-sync-$GITHUB_SHA
+          git pull origin master
+
+          git config --global user.email "ballerina-bot@ballerina.org"
+          git config --global user.name "shafreenAnfar"
+
+          git add ballerina-dev-website/spec/draft/$NEW_FOLDER
+          git commit --allow-empty -m 'Create new draft spec'
+          
+          git push --set-upstream origin automate-spec-sync-$GITHUB_SHA
+          echo 'Successfully pushed to automate-spec-sync-$GITHUB_SHA branch'
+
+      - name: Create pull request for spec-sync
         shell: bash
         run: |
           cd ballerina-dev-website
