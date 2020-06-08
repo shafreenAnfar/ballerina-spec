@@ -62,7 +62,6 @@ jobs:
         run: |
           cd ballerina-dev-website
           curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
-          message="[Automated] Sync tag ${NEW_FOLDER} with ballerina dev site"
-          bin/hub pull-request -m $message
+          bin/hub pull-request -m "[Automated] Sync new spec-tag with ballerina dev site"
         env:
           GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
