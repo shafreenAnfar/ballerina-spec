@@ -37,7 +37,7 @@ jobs:
 
       - name: Make
         run: |
-          git checkout $$GITHUB_REF -b tmp
+          git checkout $GITHUB_REF -b tmp
           cd lang
           make all
           cp -r build/lib/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
