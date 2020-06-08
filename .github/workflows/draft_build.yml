@@ -27,6 +27,7 @@ jobs:
           len=${#array[@]}
           echo "${array[len-1]}"
           mkdir "${array[len-1]}"
+          pwd
           echo "::set-env name=NEW_FOLDER::${array[len-1]}"
 
       - name: Make
@@ -34,9 +35,10 @@ jobs:
           sudo apt-get install -y xsltproc
           cd lang
           make all
-          cp -r lib/ ../../ballerina-dev-website/spec/draft/$NEW_FOLDER
-        # env:
-        #   NEW_FOLDER: ${{ env.NEW_FOLDER }}
+          pwd
+          cp -r build/lib/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
+          cp -r build/style/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
+          cp -r build/spec.html ../ballerina-dev-website/spec/draft/$NEW_FOLDER/index.html
 
       - name: Create pull request for prod-sync
         shell: bash
