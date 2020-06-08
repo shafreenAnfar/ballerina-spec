@@ -3,12 +3,12 @@ name: Daft Build
 on:
   push:
     tags:    
-      - "*" 
+      - '*'
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
+    # env:
+    #   GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
 
     steps:
       - name: Echo
