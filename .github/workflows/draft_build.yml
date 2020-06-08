@@ -35,6 +35,8 @@ jobs:
           cd lang
           make all
           cp -r lib/ ../../ballerina-dev-website/spec/draft/${{ NEW_FOLDER }}
+        env:
+          NEW_FOLDER: ${{ NEW_FOLDER }}
 
       - name: Create pull request for prod-sync
         shell: bash
@@ -44,3 +46,4 @@ jobs:
           bin/hub pull-request -m '[Automated] Sync tag ${{ NEW_FOLDER }} with dev ballerina.io'
         env:
           GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
+          NEW_FOLDER: ${{ NEW_FOLDER }}
