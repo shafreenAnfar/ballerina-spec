@@ -23,7 +23,7 @@ jobs:
       - name: Make the new folder location
         run: |
           cd ballerina-dev-website/spec/draft
-          array=($(echo refs/tags/v2020-06-10 | tr "/" "\n"))
+          array=($(echo $GITHUB_REF | tr "/" "\n"))
           len=${#array[@]}
           echo "${array[len-1]}"
           mkdir "${array[len-1]}"
@@ -49,7 +49,7 @@ jobs:
           git config --global user.email "ballerina-bot@ballerina.org"
           git config --global user.name "shafreenAnfar"
 
-          git add ballerina-dev-website/spec/draft/$NEW_FOLDER
+          git add spec/draft/$NEW_FOLDER
           git commit --allow-empty -m 'Create new draft spec'
           
           git push --set-upstream origin automate-spec-sync-$GITHUB_SHA
