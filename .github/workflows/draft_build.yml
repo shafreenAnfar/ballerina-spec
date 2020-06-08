@@ -34,16 +34,16 @@ jobs:
           sudo apt-get install -y xsltproc
           cd lang
           make all
-          cp -r lib/ ../../ballerina-dev-website/spec/draft/${{ NEW_FOLDER }}
-        env:
-          NEW_FOLDER: ${{ env.NEW_FOLDER }}
+          cp -r lib/ ../../ballerina-dev-website/spec/draft/$NEW_FOLDER
+        # env:
+        #   NEW_FOLDER: ${{ env.NEW_FOLDER }}
 
       - name: Create pull request for prod-sync
         shell: bash
         run: |
           cd ballerina-platform.github.io
           curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
-          bin/hub pull-request -m '[Automated] Sync tag ${{ NEW_FOLDER }} with dev ballerina.io'
+          bin/hub pull-request -m '[Automated] Sync tag ${NEW_FOLDER} with dev ballerina.io'
         env:
           GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
           NEW_FOLDER: ${{ env.NEW_FOLDER }}
