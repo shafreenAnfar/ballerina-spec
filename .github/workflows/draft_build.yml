@@ -103,9 +103,9 @@ jobs:
           bin/hub push
         env:
           GITHUB_TOKEN: ${{ secrets.BAL_BOT_PAT }}
-
-     - name: Push new changes to ballerina-prod-website
-       shell: bash
+          
+      - name: Push new changes to ballerina-prod-website
+        shell: bash
         run: |
           cd ballerina-platform.github.io
           curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
