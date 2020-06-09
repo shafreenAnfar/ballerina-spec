@@ -1,6 +1,9 @@
 name: Sync draft spec with ballerina.io
 
-on: push
+on: 
+  push:
+    branches:
+      - master
 
 jobs:
   sync_live_spec:
@@ -15,6 +18,9 @@ jobs:
       - name: Clone ballerina-dev-website
         run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
 
+      - name: Clone ballerina-dev-website
+        run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-platform.github.io.git
+
       - name: Install xsltproc
         run: sudo apt-get install -y xsltproc
 
@@ -23,7 +29,7 @@ jobs:
           cd lang
           make all
 
-      - name: Sync ballerina live spec with ballerina dev site
+      - name: Sync ballerina live spec with ballerina-dev-website
         run: |
           cd ballerina-dev-website
           git pull origin master
@@ -35,8 +41,30 @@ jobs:
           cp -r ../lang/build/ spec/lang/live/
           git add spec/lang/live/
           git commit --allow-empty -m "[Automated] Update live spec"
+
+      - name: Sync ballerina live spec with ballerina-prod-website
+        run: |
+          cd ballerina-platform.github.io
+          git pull origin master
+
+          git config --global user.email "ballerina-bot@ballerina.org"
+          git config --global user.name "ballerina-bot"
+
+          git rm -r spec/lang/live/
+          cp -r ../lang/build/ spec/lang/live/
+          git add spec/lang/live/
+          git commit --allow-empty -m "[Automated] Update live spec"
           
-      - name: Commit new changes
+      - name: Push new changes to ballerina-dev-website
+        shell: bash
+        run: |
+          cd ballerina-dev-website
+          curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
+          bin/hub push
+        env:
+          GITHUB_TOKEN: ${{ secrets.BAL_BOT_PAT }}
+
+      - name: Push new changes to ballerina-prod-website
         shell: bash
         run: |
           cd ballerina-dev-website
