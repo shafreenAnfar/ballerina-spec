@@ -8,14 +8,14 @@ jobs:
   sync_draft_spec:
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.BAL_BOT_PAT }}
 
     steps:       
       - name: Checkout ballerina-spec
         uses: actions/checkout@v2
 
       - name: Clone ballerina-dev-website
-        run: git clone https://shafreenAnfar:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
+        run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
 
       - name: Make a new folder location
         run: |
@@ -54,7 +54,7 @@ jobs:
           git pull origin master
 
           git config --global user.email "ballerina-bot@ballerina.org"
-          git config --global user.name "shafreenAnfar"
+          git config --global user.name "ballerina-bot"
 
           git add _data/draft_spec.json
           git add spec/lang/draft/
@@ -70,4 +70,4 @@ jobs:
           curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
           bin/hub pull-request -m "[Automated] Sync new spec-tag with ballerina dev site"
         env:
-          GITHUB_TOKEN: ${{ secrets.WEBSITE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BAL_BOT_PAT }}
