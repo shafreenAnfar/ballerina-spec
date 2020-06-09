@@ -58,7 +58,7 @@ jobs:
           git add spec/lang/live/index.md
           git commit --allow-empty -m "[Automated] Update live draft index.md"
           
-          # git push --set-upstream origin automate-spec-sync-$GITHUB_SHA
+          # git push --set-upstream origin automate-spec-sync-$GITHUB_SHA 
           # echo 'Successfully pushed to automate-spec-sync-$GITHUB_SHA branch'
 
       - name: Commit new changes
