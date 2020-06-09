@@ -15,52 +15,27 @@ jobs:
       - name: Clone ballerina-dev-website
         run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
 
-      - name: Make a new folder location
+      - name: Install xsltproc
+        run: sudo apt-get install -y xsltproc
+
+      - name: Make
         run: |
-          echo -e "---\nredirect_to: /spec/draft/\n---" > ballerina-dev-website/spec/lang/live/index.md
-      #     cd ballerina-dev-website/spec/lang/draft
-      #     array=($(echo $GITHUB_REF | tr "/" "\n"))
-      #     len=${#array[@]}
-      #     echo "${array[len-1]}"
-      #     mkdir "${array[len-1]}"
-      #     pwd
-      #     echo "::set-env name=NEW_FOLDER::${array[len-1]}"
-
-      # - name: Update the latest to new url
-      #   run: |
-      #     cd ballerina-dev-website/spec/lang/draft/latest
-      #     echo -e "---\nredirect_to: /spec/draft/$NEW_FOLDER/\n---" > index.md
-
-      # - name: Install xsltproc
-      #   run: sudo apt-get install -y xsltproc
-
-      # - name: Make
-      #   run: |
-      #     git checkout $GITHUB_REF -b tmp
-      #     cd lang
-      #     make all
-      #     cp -r build/lib/ ../ballerina-dev-website/spec/lang/draft/$NEW_FOLDER
-      #     cp -r build/style/ ../ballerina-dev-website/spec/lang/draft/$NEW_FOLDER
-      #     cp -r build/spec.html ../ballerina-dev-website/spec/lang/draft/$NEW_FOLDER/index.html
-
-      # - name: Update the list of draft specs
-      #   run: python3 .github/scripts/append.py ballerina-dev-website/_data/draft_spec.json $NEW_FOLDER
+          cd lang
+          make all
 
       - name: Sync ballerina live spec with ballerina dev site
         run: |
           cd ballerina-dev-website
-          # git checkout automate-spec-sync-$GITHUB_SHA 2>/dev/null || git checkout -b automate-spec-sync-$GITHUB_SHA
           git pull origin master
 
           git config --global user.email "ballerina-bot@ballerina.org"
           git config --global user.name "ballerina-bot"
 
-          git add spec/lang/live/index.md
-          git commit --allow-empty -m "[Automated] Update live draft index.md"
+          git rm -r spec/lang/live/
+          cp -r ../lang/build/ spec/lang/live/
+          git add spec/lang/live/
+          git commit --allow-empty -m "[Automated] Update live spec"
           
-          # git push --set-upstream origin automate-spec-sync-$GITHUB_SHA 
-          # echo 'Successfully pushed to automate-spec-sync-$GITHUB_SHA branch'
-
       - name: Commit new changes
         shell: bash
         run: |
