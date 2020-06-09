@@ -16,7 +16,8 @@ jobs:
         run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
 
       - name: Make a new folder location
-        run: echo -e "---\nredirect_to: /spec/draft/\n---" > ballerina-dev-website/spec/lang/live/index.md
+        run: |
+          echo -e "---\nredirect_to: /spec/draft/\n---" > ballerina-dev-website/spec/lang/live/index.md
       #     cd ballerina-dev-website/spec/lang/draft
       #     array=($(echo $GITHUB_REF | tr "/" "\n"))
       #     len=${#array[@]}
