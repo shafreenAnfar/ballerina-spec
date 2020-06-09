@@ -19,7 +19,7 @@ jobs:
 
       - name: Make a new folder location
         run: |
-          cd ballerina-dev-website/spec/draft
+          cd ballerina-dev-website/spec/lang/draft
           array=($(echo $GITHUB_REF | tr "/" "\n"))
           len=${#array[@]}
           echo "${array[len-1]}"
@@ -29,7 +29,7 @@ jobs:
 
       - name: Update the latest to new url
         run: |
-          cd ballerina-dev-website/spec/draft/latest
+          cd ballerina-dev-website/spec/lang/draft/latest
           echo -e "---\nredirect_to: /spec/draft/$NEW_FOLDER/\n---" > index.md
 
       - name: Install xsltproc
@@ -40,9 +40,9 @@ jobs:
           git checkout $GITHUB_REF -b tmp
           cd lang
           make all
-          cp -r build/lib/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
-          cp -r build/style/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
-          cp -r build/spec.html ../ballerina-dev-website/spec/draft/$NEW_FOLDER/index.html
+          cp -r build/lib/ ../ballerina-dev-website/spec/lang/draft/$NEW_FOLDER
+          cp -r build/style/ ../ballerina-dev-website/spec/lang/draft/$NEW_FOLDER
+          cp -r build/spec.html ../ballerina-dev-website/spec/lang/draft/$NEW_FOLDER/index.html
 
       - name: Update the list of draft specs
         run: python3 .github/scripts/append.py ballerina-dev-website/_data/draft_spec.json $NEW_FOLDER
