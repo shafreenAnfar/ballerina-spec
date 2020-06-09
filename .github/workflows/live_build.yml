@@ -18,7 +18,7 @@ jobs:
       - name: Clone ballerina-dev-website
         run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-dev-website.git
 
-      - name: Clone ballerina-dev-website
+      - name: Clone ballerina-prod-website
         run: git clone https://ballerina-bot:$GITHUB_TOKEN@github.com/ballerina-platform/ballerina-platform.github.io.git
 
       - name: Install xsltproc
