@@ -57,7 +57,7 @@ jobs:
           git config --global user.name "shafreenAnfar"
 
           git add _data/draft_spec.json
-          git add spec/draft/
+          git add spec/lang/draft/
           git commit --allow-empty -m 'Create new draft spec'
           
           git push --set-upstream origin automate-spec-sync-$GITHUB_SHA
