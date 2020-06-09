@@ -46,7 +46,7 @@ jobs:
       # - name: Update the list of draft specs
       #   run: python3 .github/scripts/append.py ballerina-dev-website/_data/draft_spec.json $NEW_FOLDER
 
-      - name: Sync ballerina-spec with ballerina dev site
+      - name: Sync ballerina live spec with ballerina dev site
         run: |
           cd ballerina-dev-website
           # git checkout automate-spec-sync-$GITHUB_SHA 2>/dev/null || git checkout -b automate-spec-sync-$GITHUB_SHA
