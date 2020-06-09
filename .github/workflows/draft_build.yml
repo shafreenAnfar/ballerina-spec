@@ -56,7 +56,7 @@ jobs:
           git config --global user.email "ballerina-bot@ballerina.org"
           git config --global user.name "shafreenAnfar"
 
-          git add ballerina-dev-website/_data/draft_spec.json
+          git add _data/draft_spec.json
           git add spec/draft/
           git commit --allow-empty -m 'Create new draft spec'
           
