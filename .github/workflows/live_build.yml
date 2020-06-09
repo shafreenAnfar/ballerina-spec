@@ -1,4 +1,4 @@
-name: Sync draft spec with ballerina.io
+name: Sync live spec with ballerina.io
 
 on: 
   push:
