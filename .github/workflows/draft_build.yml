@@ -44,6 +44,9 @@ jobs:
           cp -r build/style/ ../ballerina-dev-website/spec/draft/$NEW_FOLDER
           cp -r build/spec.html ../ballerina-dev-website/spec/draft/$NEW_FOLDER/index.html
 
+      - name: Update the list of draft specs
+        run: python3 .github/scripts/append.py ballerina-dev-website/_data/draft_spec.json $NEW_FOLDER
+
       - name: Sync ballerina-spec with ballerina dev site
         run: |
           cd ballerina-dev-website
@@ -53,6 +56,7 @@ jobs:
           git config --global user.email "ballerina-bot@ballerina.org"
           git config --global user.name "shafreenAnfar"
 
+          git add ballerina-dev-website/_data/draft_spec.json
           git add spec/draft/
           git commit --allow-empty -m 'Create new draft spec'
           
