@@ -56,7 +56,7 @@ jobs:
           git config --global user.name "ballerina-bot"
 
           git add spec/lang/live/index.md
-          git commit --allow-empty -m 'Create new live spec'
+          git commit --allow-empty -m "[Automated] Update live draft index.md"
           
           # git push --set-upstream origin automate-spec-sync-$GITHUB_SHA
           # echo 'Successfully pushed to automate-spec-sync-$GITHUB_SHA branch'
@@ -66,6 +66,6 @@ jobs:
         run: |
           cd ballerina-dev-website
           curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
-          bin/hub push -m "[Automated] Update live draft index.md"
+          bin/hub push
         env:
           GITHUB_TOKEN: ${{ secrets.BAL_BOT_PAT }}
